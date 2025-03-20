@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">生徒ダッシュボード</h2>
+    
+    <div class="row justify-content-center">
+        <!-- メインメニュー -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">メニュー</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-3">
+                        <a href="{{ url_for('student.student_request') }}" class="btn btn-primary">
+                            予約リクエストを作成
+                        </a>
+                        <a href="{{ url_for('student.student_confirmed_schedules') }}" class="btn btn-success">
+                            確定済みスケジュール
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

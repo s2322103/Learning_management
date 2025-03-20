@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">予約リクエスト作成</h2>
+
+    <div class="card">
+        <div class="card-body">
+            <form method="POST" action="{{ url_for('student.student_request') }}">
+                <!-- 日付選択 -->
+                <div class="mb-3">
+                    <label for="date" class="form-label">希望日</label>
+                    <input type="date" 
+                           class="form-control" 
+                           id="date" 
+                           name="date" 
+                           required 
+                           min="{{ today }}"
+                           max="{{ max_date }}">
+                </div>
+
+                <!-- 時間枠選択 -->
+                <div class="mb-3">
+                    <label for="time_slot_id" class="form-label">希望時間</label>
+                    <select class="form-select" id="time_slot_id" name="time_slot_id" required>
+                        <option value="">時間を選択してください</option>
+                        {% for slot in time_slots %}
+                            <option value="{{ slot.id }}">{{ slot.time_range }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- 科目選択 -->
+                <div class="mb-3">
+                    <label for="subject" class="form-label">科目</label>
+                    <select class="form-select" id="subject" name="subject" required>
+                        <option value="">科目を選択してください</option>
+                        {% for subject in subjects %}
+                            <option value="{{ subject.name }}">{{ subject.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- ボタン -->
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a href="{{ url_for('student.dashboard') }}" class="btn btn-secondary me-2">
+                        キャンセル
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        リクエスト送信
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% block scripts %}
+<script>
+    // 日付の最小値を今日に設定
+    document.addEventListener('DOMContentLoaded', function() {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('date').min = today;
+    });
+</script>
+{% endblock %}
+
+{% endblock %}

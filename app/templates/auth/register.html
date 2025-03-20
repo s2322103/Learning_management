@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="card-title text-center mb-4">新規登録</h2>
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">ユーザー名</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">パスワード</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="role" class="form-label">役割</label>
+                        <select class="form-select" id="role" name="role" required>
+                            <option value="" selected disabled>選択してください</option>
+                            <option value="student">生徒</option>
+                            <option value="teacher">講師</option>
+                            <option value="admin">管理者</option>
+                        </select>
+                    </div>
+                    
+                    <!-- 動的に表示される追加フィールド -->
+                    <div id="additional-fields" class="mb-4"></div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">登録</button>
+                    </div>
+                </form>
+                <p class="text-center mt-3">
+                    <a href="{{ url_for('auth.login') }}" class="text-decoration-none">
+                        すでにアカウントをお持ちですか？ログインはこちら
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 役割による追加フィールドの表示ロジック
+    document.getElementById('role').addEventListener('change', function () {
+        const role = this.value;
+        const additionalFields = document.getElementById('additional-fields');
+        additionalFields.innerHTML = ''; // 既存のフィールドをクリア
+
+        if (role === 'student') {
+            additionalFields.innerHTML = `
+                <div class="mb-3">
+                <label for="grade" class="form-label">学年</label>
+                <select class="form-select" id="grade" name="grade" required>
+                    <option value="" selected disabled>学年を選択してください</option>
+                    <option value="小学1年">小学1年</option>
+                    <option value="小学2年">小学2年</option>
+                    <option value="小学3年">小学3年</option>
+                    <option value="小学4年">小学4年</option>
+                    <option value="小学5年">小学5年</option>
+                    <option value="小学6年">小学6年</option>
+                    <option value="中学1年">中学1年</option>
+                    <option value="中学2年">中学2年</option>
+                    <option value="中学3年">中学3年</option>
+                </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">受講科目（複数選択可）</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="subjects" value="国語" id="subject-japanese">
+                        <label class="form-check-label" for="subject-japanese">国語</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="subjects" value="英語" id="subject-english">
+                        <label class="form-check-label" for="subject-english">英語</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="subjects" value="社会" id="subject-social">
+                        <label class="form-check-label" for="subject-social">社会</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="subjects" value="数学" id="subject-math">
+                        <label class="form-check-label" for="subject-math">数学</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="subjects" value="理科" id="subject-science">
+                        <label class="form-check-label" for="subject-science">理科</label>
+                    </div>
+                </div>
+            `;
+        } else if (role === 'teacher') {
+            additionalFields.innerHTML = `
+                <div class="mb-3">
+                    <label class="form-label">担当科目（複数選択可）</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="subjects" value="国語" id="subject-japanese">
+                        <label class="form-check-label" for="subject-japanese">国語</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="subjects" value="英語" id="subject-english">
+                        <label class="form-check-label" for="subject-english">英語</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="subjects" value="社会" id="subject-social">
+                        <label class="form-check-label" for="subject-social">社会</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="subjects" value="数学" id="subject-math">
+                        <label class="form-check-label" for="subject-math">数学</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="subjects" value="理科" id="subject-science">
+                        <label class="form-check-label" for="subject-science">理科</label>
+                    </div>
+                </div>
+            `;
+        }
+    });
+</script>
+{% endblock %}
+

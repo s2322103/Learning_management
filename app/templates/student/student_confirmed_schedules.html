@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-center mb-0">確定スケジュール一覧</h2>
+                </div>
+                <div class="card-body">
+
+                    {% if schedules %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>日付</th>
+                                        <th>時間</th>
+                                        <th>講師名</th>
+                                        <th>科目</th>
+                                        <th>状態</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for schedule in schedules %}
+                                        <tr>
+                                            <td>{{ schedule.date.strftime('%Y年%m月%d日') }}</td>
+                                            <td>{{ schedule.time_range }}</td>
+                                            <td>{{ schedule.teacher_name }}</td>
+                                            <td>{{ schedule.subject }}</td>
+                                            <td>
+                                                {% if schedule.status == 'confirmed' %}
+                                                    <span class="badge badge-success">確定</span>
+                                                {% elif schedule.status == 'canceled' %}
+                                                    <span class="badge badge-danger">キャンセル</span>
+                                                {% else %}
+                                                    <span class="badge badge-warning">{{ schedule.status }}</span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info text-center">
+                            確定されたスケジュールはありません。
+                        </div>
+                    {% endif %}
+
+                    <div class="text-center mt-4">
+                        <a href="{{ url_for('student.dashboard') }}" class="btn btn-secondary">
+                            ダッシュボードに戻る
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="h4 mb-0">スケジュール登録</h2>
+                </div>
+                <div class="card-body">
+
+                    <!-- 登録フォーム -->
+                    <form method="POST" action="{{ url_for('teacher.teacher_request') }}">
+                        <!-- 日付選択 -->
+                        <div class="form-group">
+                            <label for="date">日付 <span class="text-danger">*</span></label>
+                            <input type="date" 
+                                   class="form-control" 
+                                   id="date" 
+                                   name="date" 
+                                   required>
+                        </div>
+
+                        <!-- 時間選択 -->
+                        <div class="form-group">
+                            <label for="time_slot_id">時間 <span class="text-danger">*</span></label>
+                            <select class="form-control" id="time_slot_id" name="time_slot_id" required>
+                                <option value="">時間を選択してください</option>
+                                {% for slot in time_slots %}
+                                    <option value="{{ slot.id }}">{{ slot.time_range }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- 科目選択 -->
+                        <div class="form-group">
+                            <label for="subject">科目 <span class="text-danger">*</span></label>
+                            <select class="form-control" id="subject" name="subject" required>
+                                <option value="">科目を選択してください</option>
+                                {% for subject in subjects %}
+                                    <option value="{{ subject.name }}">{{ subject.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- ボタン -->
+                        <div class="form-group mb-0 text-center">
+                            <button type="submit" class="btn btn-primary mr-2">登録</button>
+                            <a href="{{ url_for('teacher.dashboard') }}" class="btn btn-secondary">キャンセル</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 日付の最小値を今日に設定
+    const dateInput = document.getElementById('date');
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.min = today;
+
+    // 3ヶ月後までを最大値に設定
+    const maxDate = new Date();
+    maxDate.setMonth(maxDate.getMonth() + 3);
+    dateInput.max = maxDate.toISOString().split('T')[0];
+
+    // 過去の日付を選択できないようにする
+    dateInput.addEventListener('change', function() {
+        if (this.value < today) {
+            alert('過去の日付は選択できません');
+            this.value = today;
+        }
+    });
+});
+</script>
+{% endblock %}

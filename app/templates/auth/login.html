@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="card-title text-center mb-4">ログイン</h2>
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">ユーザー名</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="password" class="form-label">パスワード</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="role" class="form-label">役割</label>
+                        <select class="form-select" id="role" name="role" required>
+                            <option value="" selected disabled>選択してください</option>
+                            <option value="student">生徒</option>
+                            <option value="teacher">講師</option>
+                            <option value="admin">管理者</option>
+                        </select>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">ログイン</button>
+                    </div>
+                </form>
+                <p class="text-center mt-3">
+                    <a href="{{ url_for('auth.register') }}" class="text-decoration-none">
+                        新しいアカウントを登録
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,78 @@
+{# templates/admin_create_schedule.html #}
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>スケジュール確定</h2>
+        <a href="{{ url_for('admin.dashboard') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> 戻る
+        </a>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <form method="POST" action="{{ url_for('admin.create_schedule') }}">
+                <!-- 教師選択 -->
+                <div class="mb-3">
+                    <label for="teacher_id" class="form-label">教師</label>
+                    <select class="form-select" id="teacher_id" name="teacher_id" required>
+                        <option value="">教師を選択してください</option>
+                        {% for teacher in teachers %}
+                            <option value="{{ teacher.id }}">{{ teacher.username }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- 生徒選択 -->
+                <div class="mb-3">
+                    <label for="student_id" class="form-label">生徒</label>
+                    <select class="form-select" id="student_id" name="student_id" required>
+                        <option value="">生徒を選択してください</option>
+                        {% for student in students %}
+                            <option value="{{ student.id }}">{{ student.username }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- 日付選択 -->
+                <div class="mb-3">
+                    <label for="date" class="form-label">日付</label>
+                    <input type="date" class="form-control" id="date" name="date" required>
+                </div>
+
+                <!-- 時間枠選択 -->
+                <div class="mb-3">
+                    <label for="time_slot_id" class="form-label">時間枠</label>
+                    <select class="form-select" id="time_slot_id" name="time_slot_id" required>
+                        <option value="">時間枠を選択してください</option>
+                        {% for time_slot in time_slots %}
+                            <option value="{{ time_slot.id }}">{{ time_slot.time_range }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- 科目選択 -->
+                <div class="mb-3">
+                    <label for="subject" class="form-label">科目</label>
+                    <select class="form-select" id="subject" name="subject" required>
+                        <option value="">科目を選択してください</option>
+                        <option value="数学">数学</option>
+                        <option value="英語">英語</option>
+                        <option value="国語">国語</option>
+                        <option value="理科">理科</option>
+                        <option value="社会">社会</option>
+                    </select>
+                </div>
+
+                <!-- 送信ボタン -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-check"></i> スケジュールを確定
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

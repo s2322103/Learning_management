@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>生徒リクエスト一覧</h2>
+        <a href="{{ url_for('admin.dashboard') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> 戻る
+        </a>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            {% if requests %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>生徒名</th>
+                                <th>日付</th>
+                                <th>時間</th>
+                                <th>科目</th>
+                                <th>ステータス</th>
+                                <th>リクエスト日時</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for request in requests %}
+                                <tr>
+                                    <td>{{ request.student_name }}</td>
+                                    <td>{{ request.date.strftime('%Y-%m-%d') }}</td>
+                                    <td>{{ request.time_range }}</td>
+                                    <td>{{ request.subject }}</td>
+                                    <td>
+                                        <span class="badge {% if request.status == '確定' %}bg-success
+                                                         {% elif request.status == 'キャンセル' %}bg-danger
+                                                         {% else %}bg-warning{% endif %}">
+                                            {{ request.status }}
+                                        </span>
+                                    </td>
+                                    <td>{{ request.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="text-center py-4">
+                    <p class="text-muted">リクエスト履歴がありません。</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .table-responsive {
+        margin-bottom: 1rem;
+    }
+    .badge {
+        font-size: 0.875rem;
+    }
+</style>
+{% endblock %}
